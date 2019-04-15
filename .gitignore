@@ -105,3 +105,6 @@ venv.bak/
 
 # secrets
 credentials.py
+
+#vscode
+.vscode/
