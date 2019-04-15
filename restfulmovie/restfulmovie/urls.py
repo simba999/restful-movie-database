@@ -25,5 +25,5 @@ urlpatterns = router.urls
 
 urlpatterns += [
     path('admin/', admin.site.urls),
-    path('top/', TopView.as_view())
+    path('top', TopView.as_view())
 ]

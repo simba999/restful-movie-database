@@ -45,7 +45,7 @@ taking care of that
 SECRET_KEY = 'XXXX'
 API_KEY = 'XXXX'
 ```
-3. run ```pip -r install requirements.txt```
+3. run ```pip install -r requirements.txt```
 4. run ```python manage.py migrate```
 5. run ```python manage.py runserver```
 
