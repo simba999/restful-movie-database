@@ -16,10 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from rest_framework import routers
-from movies_api.views import MovieViewSet
+from movies_api.views import MovieViewSet, CommentViewSet
 
 router = routers.SimpleRouter()
 router.register(r'movies', MovieViewSet)
+router.register(r'comments', CommentViewSet)
 urlpatterns = router.urls
 
 urlpatterns.append(

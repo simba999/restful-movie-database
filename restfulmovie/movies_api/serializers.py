@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Movie, Rating
+from .models import Movie, Rating, Comment
 
 class RatingsSerializer(serializers.ModelSerializer):
 
@@ -7,9 +7,16 @@ class RatingsSerializer(serializers.ModelSerializer):
         model = Rating
         exclude = ('movie',)
 
+class CommentSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Comment
+        fields = '__all__'
+
 class MovieSerializer(serializers.ModelSerializer):
 
     Ratings = RatingsSerializer(many=True)
+    Comments = CommentSerializer(many=True)
 
     class Meta:
         model = Movie

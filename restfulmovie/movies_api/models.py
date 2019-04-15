@@ -35,4 +35,12 @@ class Rating(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='Ratings')
 
     def __str__(self):
-        return f"{self.Source}: {self.Value}"
+        return f"{self.Source}: {self.Value}, for movie {self.movie}"
+
+class Comment(models.Model):
+    content = models.CharField(max_length=1500)
+    date = models.DateField(auto_now=True)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='Comments')
+
+    def __str__(self):
+        return f"{self.date}: {self.content}, for movie {self.movie}"

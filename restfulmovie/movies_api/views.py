@@ -3,8 +3,8 @@ from rest_framework import status, viewsets
 from rest_framework.response import Response
 
 from restfulmovie.credentials import API_KEY
-from .models import Movie
-from .serializers import MovieSerializer
+from .models import Movie, Comment
+from .serializers import MovieSerializer, CommentSerializer
 
 
 class MovieViewSet(viewsets.ModelViewSet):
@@ -40,5 +40,18 @@ class MovieViewSet(viewsets.ModelViewSet):
         movie = serializer.update(instance, request.POST)
 
         movie.save()
+
+        return Response(serializer.data)
+
+class CommentViewSet(viewsets.ModelViewSet):
+    """
+    A viewset for viewing and editing comment instances
+    """
+    serializer_class = CommentSerializer
+    queryset = Comment.objects.all()
+
+    def retrieve(self, request, pk=None):
+        comments = Comment.objects.filter(movie=pk)
+        serializer = CommentSerializer(comments, many=True)
 
         return Response(serializer.data)
