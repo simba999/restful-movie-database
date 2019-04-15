@@ -1,6 +1,8 @@
 import requests
-from rest_framework import status, viewsets
+from django.db.models import Count
+from rest_framework import status, viewsets, views
 from rest_framework.response import Response
+import datetime
 
 from restfulmovie.credentials import API_KEY
 from .models import Movie, Comment
@@ -55,3 +57,41 @@ class CommentViewSet(viewsets.ModelViewSet):
         serializer = CommentSerializer(comments, many=True)
 
         return Response(serializer.data)
+
+class TopView(views.APIView):
+    """
+    A viewset for obtaining top movies
+    """
+    def get(self, request):
+        params_from = [int(param) for param in request.GET['date_from'].split('.')]
+        params_to = [int(param) for param in request.GET['date_to'].split('.')]
+
+        date_from = datetime.date(params_from[0], params_from[1], params_from[2])
+        date_to = datetime.date(params_to[0], params_to[1], params_to[2])
+
+        queryset = Comment.objects.values('movie')\
+                    .annotate(comment_count=Count('movie'))\
+                    .filter(date__gte=date_from)\
+                    .filter(date__lte=date_to)\
+                    .order_by('-comment_count')
+
+        ranking = \
+        [
+            {
+                "movie_id": movie['movie'],
+                "total_comments": movie['comment_count'],
+            } \
+            for movie \
+            in queryset.iterator()
+        ]
+
+        last_number = 0
+        counter = 0
+        for movie in ranking:
+            if movie["total_comments"] != last_number:
+                counter += 1
+                last_number = movie["total_comments"]
+
+            movie["rank"] = counter
+
+        return Response(ranking)
