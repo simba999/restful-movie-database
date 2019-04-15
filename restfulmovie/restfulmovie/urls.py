@@ -15,7 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from rest_framework import routers
+from movies_api.views import MovieViewSet
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-]
+router = routers.SimpleRouter()
+router.register(r'movies', MovieViewSet)
+urlpatterns = router.urls
+
+urlpatterns.append(
+    path('admin/', admin.site.urls)
+)
