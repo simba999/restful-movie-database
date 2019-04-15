@@ -17,7 +17,11 @@ class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
 
     def create(self, request):
-        title_requested = request.POST['Title']
+        try:
+            title_requested = request.POST['Title']
+        except KeyError:
+            return Response("Title not provided. Did you remember to capitalize first letter?",
+                            status.HTTP_400_BAD_REQUEST)
 
         params = {'t': title_requested, 'apikey': API_KEY}
 
@@ -28,10 +32,9 @@ class MovieViewSet(viewsets.ModelViewSet):
         if serializer.is_valid():
             movie = serializer.create(serializer.validated_data)
             movie.save()
-            print("Gucci?")
+
             return Response(serializer.data)
 
-        print(f"Błędy:")
         return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk):

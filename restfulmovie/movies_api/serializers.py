@@ -16,7 +16,7 @@ class CommentSerializer(serializers.ModelSerializer):
 class MovieSerializer(serializers.ModelSerializer):
 
     Ratings = RatingsSerializer(many=True)
-    Comments = CommentSerializer(many=True)
+    Comments = CommentSerializer(many=True, required=False)
 
     class Meta:
         model = Movie
