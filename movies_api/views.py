@@ -3,8 +3,8 @@ from django.db.models import Count
 from rest_framework import status, viewsets, views
 from rest_framework.response import Response
 import datetime
+import os
 
-from restfulmovie.credentials import API_KEY
 from .models import Movie, Comment
 from .serializers import MovieSerializer, CommentSerializer
 
@@ -23,7 +23,7 @@ class MovieViewSet(viewsets.ModelViewSet):
             return Response("Title not provided. Did you remember to capitalize first letter?",
                             status.HTTP_400_BAD_REQUEST)
 
-        params = {'t': title_requested, 'apikey': API_KEY}
+        params = {'t': title_requested, 'apikey': os.environ['OMDB_API_KEY']}
 
         r = requests.get(url='http://www.omdbapi.com/', params=params)
 
