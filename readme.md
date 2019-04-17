@@ -38,16 +38,15 @@ taking care of that
 - Your own django SECRET_KEY. You can generate one [here](https://www.miniwebtool.com/django-secret-key-generator/)
 
 ## Development and personal use
-1. Create a file ```credentials.py``` and put it the same
-  folder as ```settings.py```
-2. Structure the folder as such:
-```python
-SECRET_KEY = 'XXXX'
-API_KEY = 'XXXX'
+1. Set required environmental variables
+```bash
+export DEBUG_VALUE='True'
+export DECATHLON_SECRET_KEY='XXXX'
+export OMDB_API_KEY='XXXX'
 ```
-3. run ```pip install -r requirements.txt```
-4. run ```python manage.py migrate```
-5. run ```python manage.py runserver```
+2. run ```pip install -r requirements.txt```
+3. run ```python manage.py migrate```
+4. run ```python manage.py runserver```
 
 Congratulations! Your project is set up.
 
